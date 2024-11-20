@@ -13,7 +13,7 @@ This is a generative bird radio, mimicking the sounds heard in the forests of Be
      ```bash
      git clone https://github.com/JanBrebaum/bird.fm
      ```
-   - Or download it directly as a ZIP file from the [repository page](https://github.com/JanBrebaum/fogl.fm) and extract it.
+   - Or download it directly as a ZIP file from the [repository page](https://github.com/JanBrebaum/bird.fm) and extract it.
 
 3. **Open the Project in Processing**
    - Launch the Processing IDE.  
