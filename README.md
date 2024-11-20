@@ -1,4 +1,4 @@
-# Fogl.fm
+# bird.fm
 
 ## Description
 This is a generative bird radio, mimicking the sounds heard in the forests of Berlin.
@@ -11,7 +11,7 @@ This is a generative bird radio, mimicking the sounds heard in the forests of Be
 2. **Clone or Download the Repository**
    - To clone the repository using Git:
      ```bash
-     git clone https://github.com/JanBrebaum/fogl.fm
+     git clone https://github.com/JanBrebaum/bird.fm
      ```
    - Or download it directly as a ZIP file from the [repository page](https://github.com/JanBrebaum/fogl.fm) and extract it.
 
@@ -19,7 +19,7 @@ This is a generative bird radio, mimicking the sounds heard in the forests of Be
    - Launch the Processing IDE.  
    - In the IDE, open the `fogl.fm.pde` file located in the root folder of the downloaded repository by navigating to:
      ```
-     File > Open > [Path to the Project Folder] > MainSketch.pde
+     File > Open > [Path to the Project Folder] > bird_fm.pde
      ```
 
 4. **Run the Project**
