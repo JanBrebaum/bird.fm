@@ -12,7 +12,7 @@ boolean[][] soundsPlayed = new boolean[numBirds][numSounds];
 int currentSeason;  // 0 = spring, 1 = summer, 2 = autumn, 3 = winter
 int currentTime;    // 0 = morning, 1 = day, 2 = evening, 3 = night
 int playStartTime = 0;
-int PLAY_DURATION = 300000; // 5 minutes in ms
+int PLAY_DURATION = 300000; // 5 minutes in 
 
 
 void setup() {
@@ -24,7 +24,6 @@ void setup() {
   
   // Load all bird sounds into an array of soundFiles
   for (int i = 0; i < numBirds; i++) {
-  
     for (int h = 0; h < numSounds; h++) {
       String filePath = "/soundLibrary/bird" + (i) + "/" + (h + 1) + ".mp3";
       birdSounds[i][h] = new SoundFile(this, filePath);
@@ -124,15 +123,33 @@ void drawButton(float x, float y, String label, boolean active) {
 
 // Handle mouse clicks to select buttons
 void mousePressed() {
-  if (isButtonClicked(width / 2 - 450, height / 4)) currentSeason = 0;
-  else if (isButtonClicked(width / 2 - 150, height / 4)) currentSeason = 1;
-  else if (isButtonClicked(width / 2 + 150, height / 4)) currentSeason = 2;
-  else if (isButtonClicked(width / 2 + 450, height / 4)) currentSeason = 3;
-  
-  if (isButtonClicked(width / 2 - 450, height / 2)) currentTime = 0;
-  else if (isButtonClicked(width / 2 - 150, height / 2)) currentTime = 1;
-  else if (isButtonClicked(width / 2 + 150, height / 2)) currentTime = 2;
-  else if (isButtonClicked(width / 2 + 450, height / 2)) currentTime = 3;
+  if (isButtonClicked(width / 2 - 450, height / 4)) {
+    currentSeason = 0;
+    playSoundscape();    
+  } else if (isButtonClicked(width / 2 - 150, height / 4)) {
+    currentSeason = 1;
+    playSoundscape();    
+  } else if (isButtonClicked(width / 2 + 150, height / 4)) {
+    currentSeason = 2;
+    playSoundscape();    
+  } else if (isButtonClicked(width / 2 + 450, height / 4)) {
+    currentSeason = 3;
+    playSoundscape();    
+  } 
+    
+  if (isButtonClicked(width / 2 - 450, height / 2)) {
+    currentTime = 0;
+    playSoundscape();    
+  } else if (isButtonClicked(width / 2 - 150, height / 2)) {
+    currentTime = 1;
+    playSoundscape();    
+  } else if (isButtonClicked(width / 2 + 150, height / 2)) {
+    currentTime = 2;
+    playSoundscape();    
+  } else if (isButtonClicked(width / 2 + 450, height / 2)) {
+    currentTime = 3;
+    playSoundscape();    
+  } 
   
   if (isButtonClicked(width / 2, (height / 4) * 3)) playSoundscape();
 }
