@@ -7,37 +7,24 @@ int numSounds = 10;
 SoundFile[][] birdSounds;             
 Bird[] allBirds = new Bird[numBirds];
 int[] birdActivity = new int[numBirds];
-int[] randomNumbers = new int[numSounds];
 int[][] startTime = new int[numBirds][numSounds];
 boolean[][] soundsPlayed = new boolean[numBirds][numSounds];  
 int currentSeason;  // 0 = spring, 1 = summer, 2 = autumn, 3 = winter
 int currentTime;    // 0 = morning, 1 = day, 2 = evening, 3 = night
+int playStartTime = 0;
+int PLAY_DURATION = 300000; // 5 minutes in ms
+
 
 void setup() {
   fullScreen();   
   textSize(40);   // Adjust text size for visibility
   textAlign(CENTER, CENTER);
   
-  birdSounds = new SoundFile[numBirds][]; 
-  
-  // Array with random numbers to randomize sound
-  for (int i = 0; i < numSounds; i++){
-    randomNumbers[i] = i + 1;
-  }
-  
-  // Swap with random numbers in the array
-  for (int i = 0; i < numSounds; i++) {
-    int j = int(random(numSounds));
-    int k = randomNumbers[i];
-    randomNumbers[i] = randomNumbers[j];
-    randomNumbers[j] = k;
-  }
+  birdSounds = new SoundFile[numBirds][numSounds]; 
   
   // Load all bird sounds into an array of soundFiles
   for (int i = 0; i < numBirds; i++) {
-    birdSounds[i] = new SoundFile[numSounds]; 
-
-    
+  
     for (int h = 0; h < numSounds; h++) {
       String filePath = "/soundLibrary/bird" + (i) + "/" + (h + 1) + ".mp3";
       birdSounds[i][h] = new SoundFile(this, filePath);
@@ -64,7 +51,26 @@ void draw() {
   drawButton(width / 2 + 150, height / 2, "Evening", currentTime == 2);
   drawButton(width / 2 + 450, height / 2, "Night", currentTime == 3);
   
-  drawButton(width / 2, (height / 4) * 3, "Play", isPlaying);
+  drawButton(width / 2, (height / 4) * 3, "Play", isPlaying == true);
+  
+  if (isPlaying) {
+  int elapsed = millis() - playStartTime;
+
+  for (int i = 0; i < numBirds; i++) {             
+    for (int h = 0; h < birdActivity[i]; h++) {    
+      if (elapsed >= startTime[i][h] && !soundsPlayed[i][h]) {
+        birdSounds[i][h].play(random(0.7, 1.5), random(-0.8, 0.8), random(0.2, 1));    
+        soundsPlayed[i][h] = true;
+      }
+    }
+  }
+
+  // If time is up, restart playback automatically
+  if (elapsed > PLAY_DURATION) {
+    playSoundscape();
+  }
+}
+
 }
 
 void keyPressed() {
@@ -77,26 +83,20 @@ void keyPressed() {
 }
 
 void playSoundscape() {
-    
-  // Fill array with bird activity extracted from CSV 
   for (int i = 0; i < numBirds; i++) {
     allBirds[i] = new Bird(i); 
-    birdActivity[i] = allBirds[i].getActivityLevel(currentTime, currentSeason);   // 1D array only with activity for the current season & time
-  }  
-  
-  isPlaying = true;
-  
-  while(isPlaying){
-    for (int i = 0; i < numBirds; i++) {             
-      for (int h = 0; h < birdActivity[i]; h++) {    
-        if(millis() >= startTime[i][h] && !soundsPlayed[i][h]){
-          birdSounds[i][h].play(random(0.7, 1.5), random(-0.8, 0.8), random(0.2,1));    
-          soundsPlayed[i][h] = true;
-        }
-      }
+    birdActivity[i] = allBirds[i].getActivityLevel(currentTime, currentSeason);
+    
+    for (int h = 0; h < numSounds; h++) {
+      startTime[i][h] = int(random(0, PLAY_DURATION)); // reset timing
+      soundsPlayed[i][h] = false; // reset play flags
     }
   }
+  
+  isPlaying = true;
+  playStartTime = millis(); // mark start time
 }
+
 
 // Function to draw each button
 void drawButton(float x, float y, String label, boolean active) {
