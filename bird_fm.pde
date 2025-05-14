@@ -77,7 +77,7 @@ void keyPressed() {
     playSoundscape();
   }
   if (key == 's' || key == 'S') {
-    isPlaying = false;
+    stopSoundscape();
   }
 }
 
@@ -95,6 +95,24 @@ void playSoundscape() {
   isPlaying = true;
   playStartTime = millis(); // mark start time
 }
+
+
+void stopSoundscape() {
+  // Stop all currently playing sounds
+  for (int i = 0; i < numBirds; i++) {
+    for (int h = 0; h < numSounds; h++) {
+      if (birdSounds[i][h].isPlaying()) {
+        birdSounds[i][h].stop();
+      }
+      soundsPlayed[i][h] = false;  // Reset flags
+      startTime[i][h] = 0;         // Reset start times (or keep random if you prefer)
+    }
+    birdActivity[i] = 0;           // Reset activity levels
+  }
+  
+  isPlaying = false;               // Stop the playback state
+}
+
 
 
 // Function to draw each button
