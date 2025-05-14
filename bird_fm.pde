@@ -34,23 +34,22 @@ void setup() {
 }
 
 void draw() {
-  background(100); 
   
-  text("Select Season:", width / 2, height / 4 - 100);
+  PImage bg = loadImage("data/bird-fm-bg.png");   
+  image(bg, 0, 0, width, height);
+
+  drawButton(435, 890, "Spring", currentSeason == 0);
+  drawButton(735, 890, "Summer", currentSeason == 1);
+  drawButton(1035, 890, "Fall", currentSeason == 2);
+  drawButton(1335, 890, "Winter", currentSeason == 3);
   
-  drawButton(width / 2 - 450, height / 4, "Spring", currentSeason == 0);
-  drawButton(width / 2 - 150, height / 4, "Summer", currentSeason == 1);
-  drawButton(width / 2 + 150, height / 4, "Fall", currentSeason == 2);
-  drawButton(width / 2 + 450, height / 4, "Winter", currentSeason == 3);
+  drawButton(585, 970, "Morning", currentTime == 0);
+  drawButton(885, 970, "Noon", currentTime == 1);
+  drawButton(1135, 970, "Evening", currentTime == 2);
+  drawButton(1435, 970, "Night", currentTime == 3);
   
-  text("Select Time of Day:", width / 2, height / 2 - 100);
-  
-  drawButton(width / 2 - 450, height / 2, "Morning", currentTime == 0);
-  drawButton(width / 2 - 150, height / 2, "Noon", currentTime == 1);
-  drawButton(width / 2 + 150, height / 2, "Evening", currentTime == 2);
-  drawButton(width / 2 + 450, height / 2, "Night", currentTime == 3);
-  
-  drawButton(width / 2, (height / 4) * 3, "Play", isPlaying == true);
+  drawCircleButton(140, 930, true, isPlaying == true);
+  drawCircleButton(1725, 930, false, isPlaying == false);
   
   if (isPlaying) {
   int elapsed = millis() - playStartTime;
@@ -66,6 +65,7 @@ void draw() {
 
   // If time is up, restart playback automatically
   if (elapsed > PLAY_DURATION) {
+    stopSoundscape();
     playSoundscape();
   }
 }
@@ -120,59 +120,92 @@ void drawButton(float x, float y, String label, boolean active) {
   rectMode(CENTER);
 
   if (active) {
-    stroke(0, 255, 0);  
-    fill(0, 255, 0);    
+    fill(42, 34, 22);     
   } else {
-    noFill();           
-    stroke(0);          
+    fill(62, 53, 38);
   }
-  strokeWeight(2);
   
   // Draw the button shape
-  rect(x, y, 250, 80, 30); 
+  rect(x, y, 300, 80, 0); 
 
   // Draw the label text
   noStroke();   
-  fill(0);
+  fill(160,141,111);
   textAlign(CENTER, CENTER);
   text(label, x, y);  
+}
+
+void drawCircleButton(float x, float y, boolean play, boolean active) {
+
+  if (active) {
+    fill(42, 34, 22);     
+  } else {
+    fill(62, 53, 38);
+  }
+  
+  noStroke();
+  
+  // Draw the button shape
+  circle(x, y, 160); 
+
+  // Draw the label icon
+  if (play) {
+    fill(160,141,111);
+    triangle(x-15,y-26,x-15,y+26,x+30,y);
+  } else {
+    fill(160,141,111);
+    rect(x,y,45,45,0);
+  }
 }
 
 
 // Handle mouse clicks to select buttons
 void mousePressed() {
-  if (isButtonClicked(width / 2 - 450, height / 4)) {
+  if (isButtonClicked(435,890)) {
+    stopSoundscape();
     currentSeason = 0;
     playSoundscape();    
-  } else if (isButtonClicked(width / 2 - 150, height / 4)) {
+  } else if (isButtonClicked(735,890)) {
+    stopSoundscape();
     currentSeason = 1;
     playSoundscape();    
-  } else if (isButtonClicked(width / 2 + 150, height / 4)) {
+  } else if (isButtonClicked(1035,890)) {
+    stopSoundscape();
     currentSeason = 2;
     playSoundscape();    
-  } else if (isButtonClicked(width / 2 + 450, height / 4)) {
+  } else if (isButtonClicked(1335,890)) {
+    stopSoundscape();
     currentSeason = 3;
     playSoundscape();    
   } 
     
-  if (isButtonClicked(width / 2 - 450, height / 2)) {
+  if (isButtonClicked(585, 970)) {
+    stopSoundscape();
     currentTime = 0;
     playSoundscape();    
-  } else if (isButtonClicked(width / 2 - 150, height / 2)) {
+  } else if (isButtonClicked(885, 970)) {
+    stopSoundscape();
     currentTime = 1;
     playSoundscape();    
-  } else if (isButtonClicked(width / 2 + 150, height / 2)) {
+  } else if (isButtonClicked(1185, 970)) {
+    stopSoundscape();
     currentTime = 2;
     playSoundscape();    
-  } else if (isButtonClicked(width / 2 + 450, height / 2)) {
+  } else if (isButtonClicked(1485, 970)) {
+    stopSoundscape();
     currentTime = 3;
     playSoundscape();    
   } 
   
-  if (isButtonClicked(width / 2, (height / 4) * 3)) playSoundscape();
+  if (isCircleButtonClicked(140, 930)) playSoundscape();
+  else if (isCircleButtonClicked(1725, 930)) stopSoundscape();
 }
 
 // Function to detect if a button is clicked based on its center coordinates
 boolean isButtonClicked(float x, float y) {
-  return mouseX > x - 125 && mouseX < x + 125 && mouseY > y - 40 && mouseY < y + 40;
+  return mouseX > x - 150 && mouseX < x + 150 && mouseY > y - 40 && mouseY < y + 40;
+}
+
+boolean isCircleButtonClicked(float x, float y) {
+  return mouseX > x - 80 && mouseX < x + 80 && mouseY > y - 80 && mouseY < y + 80;
 }
