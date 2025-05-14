@@ -45,11 +45,11 @@ void draw() {
   
   drawButton(585, 970, "Morning", currentTime == 0);
   drawButton(885, 970, "Noon", currentTime == 1);
-  drawButton(1135, 970, "Evening", currentTime == 2);
-  drawButton(1435, 970, "Night", currentTime == 3);
+  drawButton(1185, 970, "Evening", currentTime == 2);
+  drawButton(1485, 970, "Night", currentTime == 3);
   
   drawCircleButton(140, 930, true, isPlaying == true);
-  drawCircleButton(1725, 930, false, isPlaying == false);
+  drawCircleButton(1775, 930, false, isPlaying == false);
   
   if (isPlaying) {
   int elapsed = millis() - playStartTime;
@@ -198,7 +198,7 @@ void mousePressed() {
   } 
   
   if (isCircleButtonClicked(140, 930)) playSoundscape();
-  else if (isCircleButtonClicked(1725, 930)) stopSoundscape();
+  else if (isCircleButtonClicked(1775, 930)) stopSoundscape();
 }
 
 // Function to detect if a button is clicked based on its center coordinates
